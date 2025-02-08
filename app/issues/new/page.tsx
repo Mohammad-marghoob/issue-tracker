@@ -29,22 +29,21 @@ const newIssuePage = () => {
   const [error, setError] = useState("");
   const [isSubmitting, setisSubmitting] = useState(false);
 
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      setisSubmitting(true);
+      await axios.post("/api/issues", data);
+      router.push("/issues");
+    } catch (error) {
+      setisSubmitting(false);
+      setError("An error occurred.");
+    }
+  });
+
   return (
     <div className="max-w-xl">
       {error && <ErrorMessage>{error}</ErrorMessage>}
-      <form
-        className="space-y-3"
-        onSubmit={handleSubmit(async (data) => {
-          try {
-            setisSubmitting(true);
-            await axios.post("/api/issues", data);
-            router.push("/issues");
-          } catch (error) {
-            setisSubmitting(false);
-            setError("An error occurred.");
-          }
-        })}
-      >
+      <form className="space-y-3" onSubmit={onSubmit}>
         <TextField.Root placeholder="Title" {...register("title")} />
         {errors.title && <ErrorMessage>{errors.title.message}</ErrorMessage>}
         <Controller
