@@ -10,6 +10,7 @@ import { z } from "zod";
 import axios from "axios";
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
+import ErrorMessage from "@/app/components/ErrorMessage";
 
 type IssueForm = z.infer<typeof createIssueSchema>;
 
@@ -27,11 +28,7 @@ const newIssuePage = () => {
 
   return (
     <div className="max-w-xl">
-      {error && (
-        <Callout.Root color="red" className="mb-5">
-          <Callout.Text>{error}</Callout.Text>
-        </Callout.Root>
-      )}
+      {error && <ErrorMessage>{error}</ErrorMessage>}
       <form
         className="space-y-3"
         onSubmit={handleSubmit(async (data) => {
@@ -44,11 +41,7 @@ const newIssuePage = () => {
         })}
       >
         <TextField.Root placeholder="Title" {...register("title")} />
-        {errors.title && (
-          <Callout.Root color="red" className="mb-5">
-            <Callout.Text>{errors.title.message}</Callout.Text>
-          </Callout.Root>
-        )}
+        {errors.title && <ErrorMessage>{errors.title.message}</ErrorMessage>}
         <Controller
           name="description"
           control={control}
@@ -57,9 +50,7 @@ const newIssuePage = () => {
           }}
         ></Controller>
         {errors.description && (
-          <Callout.Root color="red" className="mb-5">
-            <Callout.Text>{errors.description.message}</Callout.Text>
-          </Callout.Root>
+          <ErrorMessage>{errors.description.message}</ErrorMessage>
         )}
         <Button>Submit New Issue</Button>
       </form>
