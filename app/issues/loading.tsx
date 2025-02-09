@@ -1,4 +1,4 @@
-import { Skeleton, Table, Text } from "@radix-ui/themes";
+import { Skeleton, Table } from "@radix-ui/themes";
 import IssueActions from "./IssueActions";
 
 const tableSkeletonRows = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
