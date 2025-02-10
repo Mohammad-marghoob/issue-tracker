@@ -5,7 +5,7 @@ import { Button, TextField } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createIssueSchema } from "@/app/ValidationSchemas";
+import { issueSchema } from "@/app/ValidationSchemas";
 import { z } from "zod";
 import dynamic from "next/dynamic";
 import axios from "axios";
@@ -18,7 +18,7 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
   ssr: false,
 });
 
-type IssueFormData = z.infer<typeof createIssueSchema>;
+type IssueFormData = z.infer<typeof issueSchema>;
 
 const IssueForm = ({ issue }: { issue?: Issue }) => {
   const router = useRouter();
@@ -28,7 +28,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
     handleSubmit,
     formState: { errors },
   } = useForm<IssueFormData>({
-    resolver: zodResolver(createIssueSchema),
+    resolver: zodResolver(issueSchema),
   });
 
   const [error, setError] = useState("");
