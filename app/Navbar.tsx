@@ -1,14 +1,13 @@
 "use client";
 
-import Link from "next/link";
-import { ImBug } from "react-icons/im";
-import { usePathname } from "next/navigation";
-import { useSession } from "next-auth/react";
 import { Box, Container, Flex } from "@radix-ui/themes";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { ImBug } from "react-icons/im";
+import UserNavDropDown from "./UserNavDropDown";
 
 const NavBar = () => {
   const currentPath = usePathname();
-  const { status, data: session } = useSession();
 
   const links = [
     { label: "Dashboard", href: "/" },
@@ -43,12 +42,7 @@ const NavBar = () => {
             </ul>
           </Flex>
           <Box>
-            {status === "authenticated" && (
-              <Link href="/api/auth/signout">Log Out</Link>
-            )}
-            {status === "unauthenticated" && (
-              <Link href="/api/auth/signin">Login</Link>
-            )}
+            <UserNavDropDown />
           </Box>
         </Flex>
       </Container>
