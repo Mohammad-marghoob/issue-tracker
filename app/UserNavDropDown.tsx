@@ -6,8 +6,6 @@ import Link from "next/link";
 const UserNavDropDown = () => {
   const { status, data: session } = useSession();
 
-  console.log(status);
-
   if (status === "loading") return null;
 
   if (status === "unauthenticated") {

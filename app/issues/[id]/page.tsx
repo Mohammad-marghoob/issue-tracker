@@ -4,12 +4,16 @@ import { notFound } from "next/navigation";
 import EditIssueButton from "./EditIssueButton";
 import IssueDetailes from "./IssueDetailes";
 import DeleteIssueButton from "./DeleteIssueButton";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/auth/authOptions";
 
 interface Props {
   params: { id: string };
 }
 
 const IssueDetailPage = async ({ params }: Props) => {
+  const session = await getServerSession(authOptions);
+
   const { id: paramId } = await params;
 
   try {
@@ -32,12 +36,14 @@ const IssueDetailPage = async ({ params }: Props) => {
         <Box className="md:col-span-4">
           <IssueDetailes issue={issue} />
         </Box>
-        <Box className="md:mt-12">
-          <Flex direction="column" gap="2">
-            <EditIssueButton issueId={issue.id} />
-            <DeleteIssueButton issueId={issue.id} />
-          </Flex>
-        </Box>
+        {session && (
+          <Box className="md:mt-12">
+            <Flex direction="column" gap="2">
+              <EditIssueButton issueId={issue.id} />
+              <DeleteIssueButton issueId={issue.id} />
+            </Flex>
+          </Box>
+        )}
       </Grid>
     );
   } catch (error) {
