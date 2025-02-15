@@ -34,7 +34,7 @@ const IssuesPage = async ({
   return (
     <div>
       <IssueActions />
-      <Table.Root variant="surface">
+      <Table.Root variant="surface" className="mb-3">
         <Table.Header>
           <Table.Row>
             <Table.ColumnHeaderCell>Issue</Table.ColumnHeaderCell>
