@@ -4,21 +4,31 @@ import IssueStatusBadge from "../components/IssueStatusBadge";
 import Link from "../components/Link";
 import IssueActions from "./IssueActions";
 import { Status } from "@prisma/client";
+import Pagination from "../components/Pagination";
 
 const IssuesPage = async ({
   searchParams,
 }: {
-  searchParams: { status: Status };
+  searchParams: { status: Status; page: string };
 }) => {
   const params = await searchParams;
 
   const statuses = Object.values(Status);
   const status = statuses.includes(params.status) ? params.status : undefined;
 
+  const page = parseInt(params.page) || 1;
+  const pageSize = 10;
+
+  const where = { status };
+
   const issues = await prisma.issue.findMany({
-    where: {
-      status: status,
-    },
+    where,
+    skip: (page - 1) * pageSize,
+    take: pageSize,
+  });
+
+  const issueCount = await prisma.issue.count({
+    where,
   });
 
   return (
@@ -56,6 +66,11 @@ const IssuesPage = async ({
           ))}
         </Table.Body>
       </Table.Root>
+      <Pagination
+        pageSize={pageSize}
+        currentPage={page}
+        itemCount={issueCount}
+      />
     </div>
   );
 };
