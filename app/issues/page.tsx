@@ -5,6 +5,7 @@ import Link from "../components/Link";
 import IssueActions from "./IssueActions";
 import { Status } from "@prisma/client";
 import Pagination from "../components/Pagination";
+import { Metadata } from "next";
 
 const IssuesPage = async ({
   searchParams,
@@ -73,6 +74,11 @@ const IssuesPage = async ({
       />
     </div>
   );
+};
+
+export const metadata: Metadata = {
+  title: "Issue Tracker - Issue List",
+  description: "View all project issues",
 };
 
 export default IssuesPage;
