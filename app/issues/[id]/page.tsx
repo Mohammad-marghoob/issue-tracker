@@ -23,9 +23,7 @@ const IssueDetailPage = async ({ params }: Props) => {
   const { id: paramId } = await params;
 
   try {
-    const issue = await prisma.issue.findUnique({
-      where: { id: parseInt(paramId) },
-    });
+    const issue = await fetchUser(parseInt(paramId));
 
     if (!issue) {
       notFound();
@@ -59,7 +57,9 @@ const IssueDetailPage = async ({ params }: Props) => {
 };
 
 export async function generateMetadata({ params }: Props) {
-  const issue = await fetchUser(parseInt(params.id));
+  const newParams = await params;
+
+  const issue = await fetchUser(parseInt(newParams.id));
 
   return {
     title: issue?.title,
