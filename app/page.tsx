@@ -1,4 +1,6 @@
+import { prisma } from "@/prisma/client";
 import Pagination from "./components/Pagination";
+import IssueSummary from "./IssueSummary";
 import LatestIssues from "./LatestIssues";
 
 export default async function Home({
@@ -7,5 +9,23 @@ export default async function Home({
   searchParams: { page: string };
 }) {
   const params = await searchParams;
-  return <LatestIssues />;
+
+  const openRes = await prisma.issue.count({
+    where: { status: "OPEN" },
+  });
+
+  const clsRes = await prisma.issue.count({
+    where: { status: "CLOSSED" },
+  });
+
+  const progressRes = await prisma.issue.count({
+    where: { status: "IN_PROGRESS" },
+  });
+
+  return (
+    <>
+      <LatestIssues />
+      <IssueSummary open={openRes} closed={clsRes} inProgress={progressRes} />
+    </>
+  );
 }
